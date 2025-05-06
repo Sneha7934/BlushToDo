@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Work Summary</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        h1 { color: #ff69b4; }
+        ul { list-style-type: none; padding: 0; }
+        li { padding: 10px; margin: 5px; background: #ffb6c1; border-radius: 5px; }
+        a, button { padding: 10px 20px; background: #ff69b4; color: white; text-decoration: none; border-radius: 5px; margin: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>Today's Work Summary</h1>
+    <ul id="task-summary"></ul>
+    <a href="new.html">Back to To-Do List</a>
+    <button onclick="logout()">Logout</button>
+
+    <script>
+        let currentUser = localStorage.getItem("username");
+
+        if (!currentUser) {
+            window.location.href = "login.html"; 
+        }
+
+        let tasks = JSON.parse(localStorage.getItem(`tasks_${currentUser}`)) || [];
+        let taskSummary = document.getElementById("task-summary");
+
+        if (tasks.length === 0) {
+            taskSummary.innerHTML = "<p>No tasks added yet.</p>";
+        } else {
+            tasks.forEach(task => {
+                let li = document.createElement("li");
+                li.textContent = task;
+                taskSummary.appendChild(li);
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem("username"); 
+            window.location.href = "login.html"; 
+        }
+    </script>
+
+</body>
+</html>
